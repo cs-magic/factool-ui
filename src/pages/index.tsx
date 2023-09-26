@@ -1,8 +1,10 @@
-import { Table } from "@radix-ui/themes";
 import Head from "next/head";
-import Link from "next/link";
 
 import { api } from "~/utils/api";
+import React from "react";
+import { columns, FactoolMainTable } from "~/components/factool";
+import { Github } from "lucide-react";
+import Link from "next/link";
 
 /**
  * ref: https://dev.to/gugaguichard/replace-clsx-classnames-or-classcat-with-your-own-little-helper-3bf#comment-26077
@@ -29,11 +31,11 @@ export default function Home() {
       </Head>
       <main
         className={cn(
-          "flex min-h-screen flex-col items-center justify-center bg-gradient-to-b ",
+          "flex min-h-screen flex-col items-center justify-start bg-gradient-to-b ",
           // "from-[#2e026d] to-[#15162c]"
         )}
       >
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+        <div className="container flex flex-col items-center  gap-12 px-4 py-16 ">
           <h1
             className={cn(
               "text-4xl font-extrabold tracking-tight sm:text-[5rem]",
@@ -43,36 +45,25 @@ export default function Home() {
             大模型评测
           </h1>
           <p
-            className={cn()
-            // " tracking-tight sm:text-[5rem]",
-            // "text-white"
+            className={
+              cn()
+              // " tracking-tight sm:text-[5rem]",
+              // "text-white"
             }
           >
             based on
             [ChineseFactEval](https://gair-nlp.github.io/ChineseFactEval/)
           </p>
 
-          <Table.Root>
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeaderCell>prompt</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>category</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>weight</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>response</Table.ColumnHeaderCell>
-              </Table.Row>
-            </Table.Header>
+          <FactoolMainTable data={facts ?? []} />
 
-            <Table.Body>
-              {(facts ?? []).map((line, index) => (
-                <Table.Row key={index}>
-                  <Table.RowHeaderCell>{line.prompt}</Table.RowHeaderCell>
-                  <Table.Cell>{line.category}</Table.Cell>
-                  <Table.Cell>{line.weight}</Table.Cell>
-                  <Table.Cell>{"[]"}</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
+          <div className={"grow"} />
+        </div>
+
+        <div className={"flex items-center"}>
+          <Link href={"https://github.com/cs-magic/factool-ui"}>
+            <Github />
+          </Link>
         </div>
       </main>
     </>
