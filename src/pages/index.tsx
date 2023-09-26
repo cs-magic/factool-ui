@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import { api } from "~/utils/api";
-import React from "react";
+import React, { useState } from "react";
 import { FactoolMainTable } from "~/components/factool-main";
 import Link from "next/link";
 import { Label } from "~/components/ui/label";
@@ -19,7 +19,11 @@ export function cn(
 }
 
 export default function Home() {
-  const { data: facts } = api.factool.getAll.useQuery();
+  const [pageNum, setPageNum] = useState(1);
+  const { data: facts } = api.factool.getAll.useQuery({
+    pageNum,
+    pageSize: 1000,
+  });
   console.log({ facts });
 
   return (
@@ -44,6 +48,8 @@ export default function Home() {
           >
             大模型评测
           </h1>
+
+          <p>点击第一列的省略号可以展开显示各家大模型的回答</p>
 
           <FactoolMainTable data={facts ?? []} />
 

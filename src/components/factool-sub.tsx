@@ -1,7 +1,5 @@
 "use client";
 
-import { IFactoolResponse } from "~/server/api/routers/factool";
-
 import {
   ColumnDef,
   flexRender,
@@ -18,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CheckCircle, XCircle } from "lucide-react";
+import { IFactoolResponse } from "~/ds";
 
 const columns: ColumnDef<IFactoolResponse>[] = [
   { accessorKey: "model_name" },

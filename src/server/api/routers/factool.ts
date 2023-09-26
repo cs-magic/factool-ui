@@ -3,26 +3,22 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 import factool from "~/server/datasets/chinese/dataset_chinese.jsonl";
-
-export interface IFactoolResponse {
-  model_name: string; // enum
-  response: string;
-  factuality: boolean;
-}
-export interface IFactool {
-  category: string; // enum
-  prompt: string;
-  responses_and_factuality: IFactoolResponse[];
-  weight: number;
-}
+import { IFactool } from "~/ds";
 
 export const factoolRouter = createTRPCRouter({
-  getAll: publicProcedure.query<IFactool[]>(async ({ ctx }) => {
-    // const lines  = readJsonl(await jsonl.readlines<IFactool>(factoolData), 0, 5)
-    // const data = await readJsonl(
-    //   path.join(__dirname, "../../datasets/chinese/dataset_chinese.jsonl"),
-    // );
-    // 1 as the start, see: https://github.com/dcwarwick/jsonlines-loader#jsonlines-loader
-    return factool.slice(1, 5);
-  }),
+  getAll: publicProcedure
+    .input(
+      z.object({
+        pageSize: z.number().default(5),
+        pageNum: z.number().default(1),
+      }),
+    )
+    .query<IFactool[]>(async ({ ctx, input: { pageNum, pageSize } }) => {
+      const start =
+        (pageNum - 1) * pageSize +
+        // jsonl 这个包，第一条是null
+        1;
+      const end = start + pageSize;
+      return factool.slice(start, end);
+    }),
 });
