@@ -17,11 +17,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { CheckCircle, XCircle } from "lucide-react";
 
 const columns: ColumnDef<IFactoolResponse>[] = [
   { accessorKey: "model_name" },
   { accessorKey: "response" },
-  { accessorKey: "factuality" },
+  {
+    accessorKey: "factuality",
+    cell: ({ getValue }) => {
+      const v = getValue<boolean>();
+      return v ? (
+        <CheckCircle className={"text-green-500"} />
+      ) : (
+        <XCircle className={"text-red-500"} />
+      );
+    },
+  },
 ];
 
 export function FactoolSubTable({ data }: { data: IFactoolResponse[] }) {

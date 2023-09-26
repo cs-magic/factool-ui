@@ -2,9 +2,9 @@ import Head from "next/head";
 
 import { api } from "~/utils/api";
 import React from "react";
-import { columns, FactoolMainTable } from "~/components/factool";
-import { Github } from "lucide-react";
+import { FactoolMainTable } from "~/components/factool-main";
 import Link from "next/link";
+import { Label } from "~/components/ui/label";
 
 /**
  * ref: https://dev.to/gugaguichard/replace-clsx-classnames-or-classcat-with-your-own-little-helper-3bf#comment-26077
@@ -44,26 +44,32 @@ export default function Home() {
           >
             大模型评测
           </h1>
-          <p
-            className={
-              cn()
-              // " tracking-tight sm:text-[5rem]",
-              // "text-white"
-            }
-          >
-            based on
-            [ChineseFactEval](https://gair-nlp.github.io/ChineseFactEval/)
-          </p>
 
           <FactoolMainTable data={facts ?? []} />
 
           <div className={"grow"} />
         </div>
 
-        <div className={"flex items-center"}>
-          <Link href={"https://github.com/cs-magic/factool-ui"}>
-            <Github />
-          </Link>
+        <div className={"flex flex-col gap-2"}>
+          <div className={"inline-flex items-center gap-2"}>
+            <Label>Data Open Source:</Label>
+            <Link
+              href={"https://gair-nlp.github.io/ChineseFactEval"}
+              className={"underline underline-offset-4 hover:text-blue-500"}
+            >
+              ChineseFactEval
+            </Link>
+          </div>
+
+          <div className={"inline-flex items-center gap-2"}>
+            <Label>UI Open Source:</Label>
+            <Link
+              href={"https://github.com/cs-magic/factool-ui"}
+              className={"underline underline-offset-4 hover:text-blue-500"}
+            >
+              factool-ui
+            </Link>
+          </div>
         </div>
       </main>
     </>
