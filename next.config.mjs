@@ -25,7 +25,9 @@ const config = {
     });
 
     return config;
-  }
+  },
+
+  distDir: process.env.DIST ?? ".next",
 
 };
 
