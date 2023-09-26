@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -21,8 +23,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { FactoolSubTable } from "~/components/factool-sub";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { IFactool } from "~/ds";
+import { Input } from "./ui/input";
 
 export const columns: ColumnDef<IFactool>[] = [
   // ...
@@ -54,16 +57,35 @@ export const columns: ColumnDef<IFactool>[] = [
 ];
 
 export function FactoolMainTable({ data }: { data: IFactool[] }) {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getRowCanExpand: () => true,
     getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      // sorting,
+      columnFilters,
+    },
   });
 
   return (
     <div className={"w-full"}>
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Filter by prompt ..."
+          value={(table.getColumn("prompt")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("prompt")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
+
       <div className="w-full rounded-md border">
         <Table>
           <TableHeader>
