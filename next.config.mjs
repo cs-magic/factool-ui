@@ -17,6 +17,16 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.jsonl$/,
+      use: 'jsonlines-loader',
+    });
+
+    return config;
+  }
+
 };
 
 export default config;
